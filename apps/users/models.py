@@ -44,3 +44,6 @@ class User(AbstractUser):
         return "<User id={} email={} is_active={} date_joined={}>".format(
             self.id, self.email, self.is_active, self.date_joined
         )
+
+    def get_short_name(self):
+        return self.first_name or self.email

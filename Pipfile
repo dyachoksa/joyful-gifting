@@ -10,6 +10,7 @@ psycopg = {extras = ["binary", "pool"], version = "*"}
 django-extensions = "*"
 django-allauth = {extras = ["socialaccount"], version = "*"}
 django-debug-toolbar = "*"
+django-bootstrap5 = "*"
 
 [dev-packages]
 ruff = "*"

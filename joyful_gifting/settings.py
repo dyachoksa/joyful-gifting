@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 import environ
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "debug_toolbar",
+    "django_bootstrap5",
     "django_extensions",
     # Project apps
     "apps.pages",
@@ -160,13 +163,22 @@ EMAIL_USE_SSL = email_env.get("EMAIL_USE_SSL", False)
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "uk-ua"
 
 TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    BASE_DIR / "joyful_gifting" / "locale",
+]
+
+LANGUAGES = [
+    ("uk", _("Ukrainian")),
+    ("en", _("English")),
+]
 
 
 # Static files (CSS, JavaScript, Images)
