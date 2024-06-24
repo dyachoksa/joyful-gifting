@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load items_tags %}
+
+{% if not gift|gifted_by:user %}
+  <div id="apply-wrapper">
+    {% gift_application_for gift by user as gift_application %}
+    {% if gift_application.is_new %}
+      <button class="btn w-100" disabled>{% translate 'Waiting for confirmation' %}</button>
+    {% elif gift_application.is_approved %}
+      <button class="btn btn-success w-100" disabled>
+        <i class="bi bi-check-lg"></i>
+        {% translate 'Approved' %}
+      </button>
+    {% elif gift_application.is_rejected %}
+      <button class="btn btn-secondary w-100" disabled>
+        <i class="bi bi-x-lg"></i>
+        {% translate 'Rejected' %}
+      </button>
+    {% else %}
+      <button
+        class="btn btn-primary w-100"
+        hx-post="{{ gift.get_apply_url }}"
+        hx-trigger="click"
+        hx-target="#apply-wrapper"
+        hx-swap="outerHTML"
+      >
+        {% translate 'I want this' %}
+      </button>
+    {% endif %}
+  </div>
+{% endif %}

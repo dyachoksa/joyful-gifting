@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block title %}{% trans "Gifts" %}{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Gifts" %}</h1>
+
+  <div class="row g-3">
+    {% for gift in gifts %}
+    	<div class="col col-md-6 col-lg-4 col-xl-3 position-relative">
+        <div>
+          <img class="img-fluid" src="{{ gift.image_thumbnail.url }}" alt="{{ gift.name }}" />
+        </div>
+
+        <div>
+          <h5>{{ gift.name }}</h5>
+          <small class="text-muted">{{ gift.created_at|timesince }} {% trans "ago" %}</small>
+        </div>
+
+        <a href="{{ gift.get_absolute_url }}" class="stretched-link">{% trans "Details" %}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if is_paginated %}
+  	{% bootstrap_pagination page_obj %}
+  {% endif %}
+{% endblock %}

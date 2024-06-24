@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<div class="mt-4" id="requests-wrapper">
+  <h3>{% translate 'Requests' context "gift's application" %}</h3>
+  {% for gift_application in requests %}
+    <div class="d-flex">
+      <div class="flex-shrink-0">
+        <img class="img-fluid"
+             src="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name={{ gift_application.user.get_full_name }}"
+             alt="{{ gift_application.user }}" />
+      </div>
+
+      <div class="flex-grow-1 ms-3">
+        <small class="text-muted">
+          <span class="badge text-bg-primary">{{ gift_application.get_status_display }}</span>
+          <span>{{ gift_application.created_at|date:"DATETIME_FORMAT" }}</span>
+        </small>
+        <p>{{ gift_application.user.get_full_name|default:gift_application.user.get_short_name }}</p>
+
+      </div>
+
+      {% if gift_application.is_new %}
+        <div class="ms-2">
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            hx-post="{{ gift_application.get_approve_url }}"
+            hx-trigger="click"
+            hx-target="#requests-wrapper"
+            hx-swap="outerHTML"
+          >
+            <i class="bi bi-check-lg"></i>
+            {% translate 'Approve' %}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>{% translate 'No requests at this moment.' context "gift's application" %}</p>
+  {% endfor %}
+</div>

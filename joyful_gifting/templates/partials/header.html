@@ -8,7 +8,11 @@
           {% trans "Home" %}
         </a>
       </li>
-      <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
+      <li class="nav-item">
+        <a href="{% url 'items:gift-list' %}" class="nav-link link-body-emphasis px-2">
+          {% trans "Gifts" %}
+        </a>
+      </li>
       <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
     </ul>
 

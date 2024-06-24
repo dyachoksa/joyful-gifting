@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ gift.name }}{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>{{ gift.name }}</h1>
+    <div>
+      {% if gift.is_gifted %}
+        <span class="fs-4">
+          <span class="badge text-bg-success">
+            <i class="bi bi-check-lg"></i> {{ gift.get_status_display }}
+          </span>
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mt-4 row g-3">
+    <div class="col col-md-6 col-lg-5 col-xl-4">
+      <img src="{{ gift.image_preview.url }}" alt="{{ gift.name }}" class="img-fluid" />
+
+      <div class="pt-2">
+        {% include 'items/partials/want_button.html' %}
+      </div>
+    </div>
+
+    <div class="col col-md-6 col-lg-7 col-xl-8">
+      <small class="text-muted">{{ gift.created_at|timesince }} {% trans "ago" %}</small>
+      <p class="fs-6">{% translate 'Gift from' %} {{ gift.gifted_by.get_short_name }}</p>
+
+      <p>{{ gift.description }}</p>
+    </div>
+  </div>
+
+  {% if perms.items.can_manage_gift_application %}
+    {% include 'items/partials/gift_requests.html' %}
+  {% endif %}
+{% endblock %}

@@ -11,6 +11,9 @@ django-extensions = "*"
 django-allauth = {extras = ["socialaccount"], version = "*"}
 django-debug-toolbar = "*"
 django-bootstrap5 = "*"
+pillow = "*"
+django-imagekit = "*"
+django-htmx = "*"
 
 [dev-packages]
 ruff = "*"
