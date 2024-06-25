@@ -37,7 +37,7 @@
     </ul>
   </div>
 </nav>
-<header class="py-3 mb-4 border-bottom">
+<header class="py-3 mb-4">
   <div class="container d-flex flex-wrap align-items-center justify-content-center">
     <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
       <img class="me-2" src="{% static 'logo.png' %}" width="32" height="32" alt="Joyful Gifting"/>
@@ -46,16 +46,16 @@
 
     <div class="mb-3 mb-lg-0 me-lg-auto">
       <a class="btn btn-primary" href="{% url 'items:gift-create' %}">{% translate 'Give a gift' %}</a>
+      <a class="ms-2 btn btn-light" href="{% url 'items:gift-list' %}">{% translate 'Explore gifts' %}</a>
     </div>
 
     <div class="col-12 col-lg-auto mb-3 mb-lg-0">
-      <div class="d-flex">
+      <div class="d-flex gap-1">
         <form role="search">
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
 
-        <div class="ms-1"
-             hx-get="{% url 'notices:check' %}"
+        <div hx-get="{% url 'notices:check' %}"
              hx-trigger="every 10s"
              hx-target="this"
              hx-swap="innerHTML">

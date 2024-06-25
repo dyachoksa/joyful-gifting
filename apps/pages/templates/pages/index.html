@@ -1,5 +1,38 @@
 {% extends "base.html" %}
+{% load static i18n %}
 
 {% block content %}
-	<h1>Welcome to the Joyful Gifting!</h1>
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="{% static 'images/gifts.svg' %}"
+           class="d-block mx-lg-auto img-fluid" alt="Joyful Gifting" width="690" height="430" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+        {% translate 'Enjoy giving and receiving gifts' context 'home' %}
+      </h1>
+
+      <p class="lead">
+        {% blocktranslate trimmed %}
+        	Welcome to our gift exchange hub! Dive into a world of unique presents,
+          share the joy of giving, discover unexpected surprises, and connect with
+          a community fuelled by generosity. Join us today!
+        {% endblocktranslate %}
+      </p>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        {% if user.is_authenticated %}
+          <a href="{% url 'items:gift-create' %}" class="btn btn-primary px-4 me-md-2">
+            {% translate 'Give a gift' %}</a>
+          <a href="{% url 'items:gift-list' %}" class="btn btn-light px-4">
+            {% trans 'Explore gifts' %}</a>
+        {% else %}
+          <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+            {% translate 'Sign up' %}</a>
+          <a href="{% url 'account_login' %}" class="btn btn-light btn-lg px-4">
+            {% trans "Login" %}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
