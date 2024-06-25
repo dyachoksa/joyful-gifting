@@ -6,3 +6,6 @@ class ItemsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "apps.items"
     verbose_name = _("Items")
+
+    def ready(self):
+        from . import signals  # noqa: F401

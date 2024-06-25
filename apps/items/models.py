@@ -90,11 +90,29 @@ class Gift(models.Model):
     def is_gifted(self):
         return self.status == GiftStatus.GIFTED
 
+    @property
+    def is_new(self):
+        return self.status == GiftStatus.NEW
+
+    @property
+    def in_review(self):
+        return self.status == GiftStatus.IN_REVIEW
+
+    @property
+    def is_approved(self):
+        return self.status == GiftStatus.APPROVED
+
     def get_absolute_url(self):
         return reverse("items:gift-detail", kwargs={"pk": self.pk})
 
     def get_apply_url(self):
         return reverse("items:apply-for-gift", kwargs={"pk": self.pk})
+
+    def get_approve_url(self):
+        return reverse("items:approve-gift", kwargs={"pk": self.pk})
+
+    def get_reject_url(self):
+        return reverse("items:reject-gift", kwargs={"pk": self.pk})
 
     def is_owned_by(self, user):
         return self.gifted_by_id == user.id

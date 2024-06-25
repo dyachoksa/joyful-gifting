@@ -38,11 +38,15 @@
   </div>
 </nav>
 <header class="py-3 mb-4 border-bottom">
-  <div class="container d-flex flex-wrap justify-content-center">
+  <div class="container d-flex flex-wrap align-items-center justify-content-center">
     <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
       <img class="me-2" src="{% static 'logo.png' %}" width="32" height="32" alt="Joyful Gifting"/>
       <span class="fs-5">Joyful Gifting</span>
     </a>
+
+    <div class="mb-3 mb-lg-0 me-lg-auto">
+      <a class="btn btn-primary" href="{% url 'items:gift-create' %}">{% translate 'Give a gift' %}</a>
+    </div>
 
     <div class="col-12 col-lg-auto mb-3 mb-lg-0">
       <div class="d-flex">

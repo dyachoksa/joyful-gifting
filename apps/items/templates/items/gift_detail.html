@@ -6,13 +6,22 @@
 {% block content %}
   <div class="d-flex justify-content-between align-items-center">
     <h1>{{ gift.name }}</h1>
-    <div>
+    <div class="d-flex align-items-center gap-1">
       {% if gift.is_gifted %}
         <span class="fs-4">
           <span class="badge text-bg-success">
             <i class="bi bi-check-lg"></i> {{ gift.get_status_display }}
           </span>
         </span>
+      {% elif gift.is_new or gift.in_review %}
+        <span class="fs-4">
+          <span class="badge text-bg-light">
+            <i class="bi bi-clock"></i> {% translate 'In review' %}
+          </span>
+        </span>
+
+        <button hx-post="{{ gift.get_approve_url }}" class="btn btn-primary btn-sm">{% translate 'Approve gift' %}</button>
+        <button hx-post="{{ gift.get_reject_url }}" class="btn btn-light btn-sm">{% translate 'Reject gift' %}</button>
       {% endif %}
     </div>
   </div>

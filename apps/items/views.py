@@ -3,17 +3,20 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, gettext_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django_htmx.http import HttpResponseClientRedirect
 from notifications.signals import notify
 
+from apps.notices.models import Notification
+
+from .forms import GiftForm
 from .models import Gift, GiftStatus, GiftApplication
-from ..notices.models import Notification
 
 
 class GiftListView(LoginRequiredMixin, ListView):
@@ -39,6 +42,81 @@ class GiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+class GiftCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Gift
+    form_class = GiftForm
+    success_message = gettext_lazy(
+        "Thank you for your gift! It will be show on site shortly."
+    )
+
+    def form_valid(self, form):
+        form.instance.status = GiftStatus.NEW
+        form.instance.gifted_by = self.request.user
+
+        response = super().form_valid(form)
+
+        admins_group = Group.objects.get(name=settings.ADMINS_GROUP_NAME)
+        notify.send(
+            self.request.user,
+            recipient=admins_group,
+            verb=_("added gift"),
+            target=self.object,
+            description=_("A newly registered user has added first gift."),
+        )
+
+        return response
+
+
+@require_POST
+@permission_required("items.can_manage_gift")
+def approve_gift(request, pk):
+    gift = get_object_or_404(Gift, pk=pk)
+
+    if not gift.is_new and not gift.in_review:
+        messages.warning(request, _("Gift has been already reviewed"))
+        return (
+            HttpResponseClientRedirect(gift.get_absolute_url())
+            if request.htmx
+            else redirect(gift.get_absolute_url())
+        )
+
+    gift.status = GiftStatus.APPROVED
+    gift.save()
+
+    messages.success(request, _("Gift has been approved."))
+
+    return (
+        HttpResponseClientRedirect(gift.get_absolute_url())
+        if request.htmx
+        else redirect(gift.get_absolute_url())
+    )
+
+
+@require_POST
+@permission_required("items.can_manage_gift")
+def reject_gift(request, pk):
+    gift = get_object_or_404(Gift, pk=pk)
+
+    if not gift.is_new and not gift.in_review:
+        messages.warning(request, _("Gift has been already reviewed"))
+        return (
+            HttpResponseClientRedirect(gift.get_absolute_url())
+            if request.htmx
+            else redirect(gift.get_absolute_url())
+        )
+
+    gift.status = GiftStatus.REJECTED
+    gift.save()
+
+    messages.success(request, _("Gift has been rejected."))
+
+    return (
+        HttpResponseClientRedirect(gift.get_absolute_url())
+        if request.htmx
+        else redirect(gift.get_absolute_url())
+    )
+
+
 @require_POST
 @login_required
 def apply_for_gift(request, pk):
@@ -50,7 +128,7 @@ def apply_for_gift(request, pk):
         return (
             HttpResponseClientRedirect(gift.get_absolute_url())
             if request.htmx
-            else redirect("items:gift-detail", pk=gift.pk)
+            else redirect(gift.get_absolute_url())
         )
     except GiftApplication.DoesNotExist:
         application = GiftApplication.objects.create(gift=gift, user=request.user)
@@ -108,7 +186,7 @@ def approve_gift_application(request, pk):
 
     if not request.htmx:
         messages.success(request, "Gift application approved")
-        return redirect("items:gift-detail", pk=application.gift.pk)
+        return redirect(application.gift.get_absolute_url())
 
     context = {
         "gift": application.gift,

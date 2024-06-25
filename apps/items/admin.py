@@ -16,7 +16,10 @@ class GiftAdmin(admin.ModelAdmin):
 
     date_hierarchy = "created_at"
 
+    search_fields = ("name", "description")
+
     list_display = ("name", "gifted_by", "status", "created_at", "gifted_at")
+    list_filter = ("status", "gifted_at", "created_at")
     list_select_related = ("gifted_by",)
 
 
