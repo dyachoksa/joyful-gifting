@@ -55,8 +55,10 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "django_extensions",
     "django_htmx",
+    "notifications",
     # Project apps
     "apps.items",
+    "apps.notices",
     "apps.pages",
     "apps.users",
 ]
@@ -141,6 +143,8 @@ LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
 
+ADMINS_GROUP_NAME = "Адміністратори"
+
 
 # Email settings
 
@@ -204,6 +208,15 @@ MEDIA_ROOT = BASE_DIR / "public" / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Notifications & messages
+
+NOTIFICATIONS_NOTIFICATION_MODEL = "notices.Notification"
+
+DJANGO_NOTIFICATIONS_CONFIG = {
+    "USE_JSONFIELD": True,
+}
 
 
 # Other settings

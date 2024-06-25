@@ -1,14 +1,19 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 from django_htmx.http import HttpResponseClientRedirect
+from notifications.signals import notify
 
 from .models import Gift, GiftStatus, GiftApplication
+from ..notices.models import Notification
 
 
 class GiftListView(LoginRequiredMixin, ListView):
@@ -48,7 +53,16 @@ def apply_for_gift(request, pk):
             else redirect("items:gift-detail", pk=gift.pk)
         )
     except GiftApplication.DoesNotExist:
-        GiftApplication.objects.create(gift=gift, user=request.user)
+        application = GiftApplication.objects.create(gift=gift, user=request.user)
+
+        admins_group = Group.objects.get(name=settings.ADMINS_GROUP_NAME)
+        notify.send(
+            request.user,
+            recipient=admins_group,
+            verb="applied",
+            action_object=application,
+            target=gift,
+        )
 
     context = {"gift": gift}
 
@@ -81,6 +95,16 @@ def approve_gift_application(request, pk):
     application.gift.gifted_at = timezone.now()
     application.gift.gifted_to = application.user
     application.gift.save()
+
+    notify.send(
+        request.user,
+        recipient=application.user,
+        verb=_("approved"),
+        action_object=application,
+        target=application.gift,
+        description=_("Your gift application has been approved"),
+        level=Notification.LEVELS.success,
+    )
 
     if not request.htmx:
         messages.success(request, "Gift application approved")

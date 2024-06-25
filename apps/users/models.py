@@ -38,7 +38,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.get_short_name()
 
     def __repr__(self):
         return "<User id={} email={} is_active={} date_joined={}>".format(
@@ -46,4 +46,4 @@ class User(AbstractUser):
         )
 
     def get_short_name(self):
-        return self.first_name or self.email
+        return self.first_name or self.username or self.email

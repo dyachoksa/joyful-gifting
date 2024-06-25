@@ -4,7 +4,7 @@ import uuid
 
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, gettext
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail, SmartResize
 
@@ -160,7 +160,7 @@ class GiftApplication(models.Model):
         verbose_name_plural = _("gift applications")
 
     def __str__(self):
-        return "Gift Application #{}".format(self.id)
+        return gettext("gift application")
 
     def __repr__(self):
         return "<GiftApplication id={} gift={} status={}>".format(

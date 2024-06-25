@@ -1,5 +1,5 @@
-{% load i18n %}
-{% load static %}
+{% load i18n static %}
+
 <nav class="py-2 bg-body-tertiary border-bottom">
   <div class="container d-flex flex-wrap">
     <ul class="nav me-auto">
@@ -40,11 +40,24 @@
 <header class="py-3 mb-4 border-bottom">
   <div class="container d-flex flex-wrap justify-content-center">
     <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
-      <img class="me-2" src="{% static 'logo.png' %}" width="32" height="32" alt="Joyful Gifting" />
+      <img class="me-2" src="{% static 'logo.png' %}" width="32" height="32" alt="Joyful Gifting"/>
       <span class="fs-5">Joyful Gifting</span>
     </a>
-    <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-    </form>
+
+    <div class="col-12 col-lg-auto mb-3 mb-lg-0">
+      <div class="d-flex">
+        <form role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+
+        <div class="ms-1"
+             hx-get="{% url 'notices:check' %}"
+             hx-trigger="every 10s"
+             hx-target="this"
+             hx-swap="innerHTML">
+          {% include 'notices/partials/notifications.html' %}
+        </div>
+      </div>
+    </div>
   </div>
 </header>

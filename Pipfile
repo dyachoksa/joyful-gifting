@@ -14,6 +14,9 @@ django-bootstrap5 = "*"
 pillow = "*"
 django-imagekit = "*"
 django-htmx = "*"
+django-model-utils = "*"
+django-notifications-hq = "*"
+setuptools = "*"
 
 [dev-packages]
 ruff = "*"

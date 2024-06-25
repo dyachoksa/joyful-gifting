@@ -1,0 +1,20 @@
+<div class="alert alert-{{ notice.level }}">
+  <h5>
+    <i class="bi {% if notice.unread %} bi-envelope {% else %} bi-envelope-open {% endif %}"></i>
+    {{ notice.actor }}
+    {{ notice.verb }}
+    {% if notice.target %}
+      of {{ notice.target }}
+    {% endif %}
+  </h5>
+
+  <p>{{ notice.timesince }} ago</p>
+
+  <p>{{ notice.description|linebreaksbr }}</p>
+
+  <div class="notice-actions">
+    {% for action in notice.data.actions %}
+      <a class="btn" href="{{ action.href }}">{{ action.title }}</a>
+    {% endfor %}
+  </div>
+</div>

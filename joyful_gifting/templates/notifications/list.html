@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate 'Notifications' %}{% endblock %}
+
+{% block content %}
+  <h1>{% translate 'Notifications' %}</h1>
+
+  <div class="mt-3">
+    <ul class="notifications">
+      {% for notice in notifications %}
+        {% include 'notifications/notice.html' %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

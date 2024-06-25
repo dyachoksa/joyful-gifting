@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load notifications_tags %}
+<div class="dropdown">
+  {% notifications_unread as unread_count %}
+  <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-bell"></i>
+    {% if unread_count %}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+        {{ unread_count }}
+      </span>
+    {% endif %}
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    {% if unread_count %}
+      {% for notification in user.notifications.unread|slice:':5' %}
+        <li>
+          <a href="{{ notification.get_absolute_url }}" class="dropdown-item">
+            {{ notification }}
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      <p class="px-3 pt-2 small text-body-secondary">
+        {% translate 'No new notifications' %}
+      </p>
+    {% endif %}
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <a href="{% url 'notifications:all' %}"
+         class="dropdown-item d-flex align-items-center justify-content-between gap-1">
+        <span>{% translate 'View all notifications' %}</span>
+        <i class="bi bi-arrow-right-short"></i>
+      </a>
+    </li>
+  </ul>
+</div>
