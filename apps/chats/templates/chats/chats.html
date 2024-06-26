@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load chats_tags %}
+
+{% block title %}{% translate 'Chats' %}{% endblock %}
+
+{% block content %}
+  <h1>{% translate 'Chats' %}</h1>
+
+  <div class="mt-3 grid">
+    <div class="g-col-lg-4 g-col-xl-3">
+      <div class="list-group">
+        {% for chat in chats %}
+          {% with chat|chat_sender:user as sender %}
+            <a href="{{ chat.get_absolute_url }}"
+               class="list-group-item list-group-item-action px-2 d-flex align-items-center {% if chat.id == active_chat.id %} active {% endif %}">
+              <div class="flex-shrink-0">
+                <img
+                  class="img-fluid rounded-1"
+                  src="{{ sender.get_avatar_url }}"
+                  alt="{{ sender }}"
+                  width="32"
+                  height="32"
+                />
+              </div>
+              <div class="flex-grow-1 ms-2">
+                <span>{{ sender.get_full_name }}</span>
+              </div>
+            </a>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="g-col-lg-8 g-col-xl-9">
+      {% if active_chat %}
+        {% include 'chats/partials/messages.html' %}
+      {% else %}
+        <p class="text-muted small py-1">{% translate 'No active chat. Please select one.' %}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

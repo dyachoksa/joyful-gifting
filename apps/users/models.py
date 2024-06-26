@@ -47,3 +47,8 @@ class User(AbstractUser):
 
     def get_short_name(self):
         return self.first_name or self.username or self.email
+
+    def get_avatar_url(self):
+        return "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name={}".format(
+            self.get_full_name()
+        )

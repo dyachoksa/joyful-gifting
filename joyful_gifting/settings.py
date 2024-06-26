@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django_htmx",
     "notifications",
     # Project apps
+    "apps.chats",
     "apps.items",
     "apps.notices",
     "apps.pages",

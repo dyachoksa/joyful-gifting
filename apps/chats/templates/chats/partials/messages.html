@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="d-flex flex-column" style="height: 55vh">
+  <div class="flex-grow-1 overflow-y-auto" id="messages-list">
+    {% for message in active_chat.get_chat_messages %}
+    	<p>
+        <small class="text-muted">{{ message.sender }}</small><br>
+        {{ message.message }}
+      </p>
+    {% endfor %}
+  </div>
+
+  <form action="." method="post" class="mt-2 d-flex align-items-start gap-1">
+    {% csrf_token %}
+    <textarea class="form-control" rows="2" name="message" required autofocus></textarea>
+    <div class="flex-shrink-0">
+      <button type="submit" class="btn btn-primary">
+        {% translate 'Send' %}
+      </button>
+    </div>
+  </form>
+</div>
