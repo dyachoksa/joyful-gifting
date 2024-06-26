@@ -1,6 +1,6 @@
 from django import template
 
-from apps.items.models import GiftApplication
+from apps.gifts.models import GiftApplication
 
 register = template.Library()
 

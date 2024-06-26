@@ -9,7 +9,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'items:gift-list' %}" class="nav-link link-body-emphasis px-2">
+        <a href="{% url 'gifts:list' %}" class="nav-link link-body-emphasis px-2">
           {% trans "Gifts" %}
         </a>
       </li>
@@ -49,8 +49,8 @@
     </a>
 
     <div class="mb-3 mb-lg-0 me-lg-auto">
-      <a class="btn btn-primary" href="{% url 'items:gift-create' %}">{% translate 'Give a gift' %}</a>
-      <a class="ms-2 btn btn-light" href="{% url 'items:gift-list' %}">{% translate 'Explore gifts' %}</a>
+      <a class="btn btn-primary" href="{% url 'gifts:create' %}">{% translate 'Give a gift' %}</a>
+      <a class="ms-2 btn btn-light" href="{% url 'gifts:list' %}">{% translate 'Explore gifts' %}</a>
     </div>
 
     <div class="col-12 col-lg-auto mb-3 mb-lg-0">
@@ -59,18 +59,20 @@
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
 
-        <div hx-get="{% url 'notices:check' %}"
-             hx-trigger="every 10s"
-             hx-target="this"
-             hx-swap="innerHTML">
-          {% include 'notices/partials/notifications.html' %}
-        </div>
-        
-        <div>
-          <a href="{% url 'chats:list' %}" class="btn btn-light">
-            <i class="bi bi-chat-square"></i>
-          </a>
-        </div>
+        {% if user.is_authenticated %}
+          <div hx-get="{% url 'notices:check' %}"
+               hx-trigger="every 10s"
+               hx-target="this"
+               hx-swap="innerHTML">
+            {% include 'notices/partials/notifications.html' %}
+          </div>
+          
+          <div>
+            <a href="{% url 'chats:list' %}" class="btn btn-light">
+              <i class="bi bi-chat-square"></i>
+            </a>
+          </div>
+        {% endif %} 
       </div>
     </div>
   </div>

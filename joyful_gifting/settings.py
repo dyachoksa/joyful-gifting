@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     "notifications",
     # Project apps
     "apps.chats",
-    "apps.items",
+    "apps.gifts",
     "apps.notices",
     "apps.pages",
     "apps.users",

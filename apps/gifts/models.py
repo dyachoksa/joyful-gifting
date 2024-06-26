@@ -103,16 +103,16 @@ class Gift(models.Model):
         return self.status == GiftStatus.APPROVED
 
     def get_absolute_url(self):
-        return reverse("items:gift-detail", kwargs={"pk": self.pk})
+        return reverse("gifts:detail", kwargs={"pk": self.pk})
 
     def get_apply_url(self):
-        return reverse("items:apply-for-gift", kwargs={"pk": self.pk})
+        return reverse("gifts:apply-for-gift", kwargs={"pk": self.pk})
 
     def get_approve_url(self):
-        return reverse("items:approve-gift", kwargs={"pk": self.pk})
+        return reverse("gifts:approve-gift", kwargs={"pk": self.pk})
 
     def get_reject_url(self):
-        return reverse("items:reject-gift", kwargs={"pk": self.pk})
+        return reverse("gifts:reject-gift", kwargs={"pk": self.pk})
 
     def is_owned_by(self, user):
         return self.gifted_by_id == user.id
@@ -202,4 +202,4 @@ class GiftApplication(models.Model):
         return self.status == GiftApplicationStatus.REJECTED
 
     def get_approve_url(self):
-        return reverse("items:approve-gift-application", kwargs={"pk": self.pk})
+        return reverse("gifts:approve-gift-application", kwargs={"pk": self.pk})

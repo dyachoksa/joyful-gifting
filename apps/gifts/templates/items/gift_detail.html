@@ -31,7 +31,7 @@
       <img src="{{ gift.image_preview.url }}" alt="{{ gift.name }}" class="img-fluid" />
 
       <div class="pt-2">
-        {% include 'items/partials/want_button.html' %}
+        {% include 'gifts/partials/want_button.html' %}
       </div>
     </div>
 
@@ -44,6 +44,6 @@
   </div>
 
   {% if perms.items.can_manage_gift_application %}
-    {% include 'items/partials/gift_requests.html' %}
+    {% include 'gifts/partials/gift_requests.html' %}
   {% endif %}
 {% endblock %}

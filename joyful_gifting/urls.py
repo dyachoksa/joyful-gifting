@@ -19,6 +19,6 @@ urlpatterns = [
     path("chats/", include("apps.chats.urls")),
     path("notifications/", include("apps.notices.urls")),
     path("notifications/", include("notifications.urls", namespace="notifications")),
-    path("", include("apps.items.urls")),
+    path("gifts/", include("apps.gifts.urls")),
     path("", include("apps.pages.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

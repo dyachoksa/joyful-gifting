@@ -13,7 +13,7 @@ class Notification(AbstractNotification):
         return reverse("notices:open-notification", kwargs={"pk": self.pk})
 
     def target_object_url(self):
-        url = reverse("items:gift-list")
+        url = reverse("gifts:gift-list")
 
         if self.target and hasattr(self.target, "get_absolute_url"):
             url = self.target.get_absolute_url()

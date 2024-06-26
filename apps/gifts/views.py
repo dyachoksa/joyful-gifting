@@ -68,7 +68,7 @@ class GiftCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 @require_POST
-@permission_required("items.can_manage_gift")
+@permission_required("gifts.can_manage_gift")
 def approve_gift(request, pk):
     gift = get_object_or_404(Gift, pk=pk)
 
@@ -93,7 +93,7 @@ def approve_gift(request, pk):
 
 
 @require_POST
-@permission_required("items.can_manage_gift")
+@permission_required("gifts.can_manage_gift")
 def reject_gift(request, pk):
     gift = get_object_or_404(Gift, pk=pk)
 
@@ -145,13 +145,13 @@ def apply_for_gift(request, pk):
     context = {"gift": gift}
 
     if request.htmx:
-        return render(request, "items/partials/want_button.html", context=context)
+        return render(request, "gifts/partials/want_button.html", context=context)
 
-    return redirect("items:gift-detail", pk=gift.pk)
+    return redirect(gift.get_absolute_url())
 
 
 @require_POST
-@permission_required("items.can_manage_gift_application")
+@permission_required("gifts.can_manage_gift_application")
 @transaction.atomic
 def approve_gift_application(request, pk):
     application: GiftApplication = get_object_or_404(
@@ -196,4 +196,4 @@ def approve_gift_application(request, pk):
     }
 
     # todo: add toast notification trigger
-    return render(request, "items/partials/gift_requests.html", context=context)
+    return render(request, "gifts/partials/gift_requests.html", context=context)
