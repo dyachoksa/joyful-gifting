@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load items_tags %}
+{% load gifts_tags %}
 
 {% if not gift|gifted_by:user %}
   <div id="apply-wrapper">
@@ -16,7 +16,7 @@
         <i class="bi bi-x-lg"></i>
         {% translate 'Rejected' %}
       </button>
-    {% else %}
+    {% elif gift.is_approved %}
       <button
         class="btn btn-primary w-100"
         hx-post="{{ gift.get_apply_url }}"

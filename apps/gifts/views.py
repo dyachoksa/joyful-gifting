@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
@@ -17,6 +17,28 @@ from apps.notices.models import Notification
 
 from .forms import GiftForm
 from .models import Gift, GiftStatus, GiftApplication
+
+
+class GiftManageListView(PermissionRequiredMixin, ListView):
+    model = Gift
+    context_object_name = "gifts"
+    paginate_by = 10
+    template_name = "gifts/gift_manage_list.html"
+    user_only = False
+
+    def get_permission_required(self):
+        if self.user_only:
+            return []
+
+        return ("gifts.cat_manage_gift",)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if self.user_only:
+            qs = qs.filter(gifted_by=self.request.user)
+
+        return qs
 
 
 class GiftListView(LoginRequiredMixin, ListView):

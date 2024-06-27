@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if gift.is_gifted %}
+  <span class="fs-4">
+    <span class="badge text-bg-success">
+      <i class="bi bi-check-lg"></i> {{ gift.get_status_display }}
+    </span>
+  </span>
+{% elif gift.is_new or gift.in_review %}
+  <span class="fs-4">
+    <span class="badge text-bg-light">
+      <i class="bi bi-clock"></i> {% translate 'In review' %}
+    </span>
+  </span>
+{% elif gift.is_rejected %}
+  <span class="fs-4">
+    <span class="badge text-bg-warning">
+      <i class="bi bi-x-circle"></i> {{ gift.get_status_display }}
+    </span>
+  </span>
+{% endif %}

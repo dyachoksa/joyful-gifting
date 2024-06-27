@@ -1,0 +1,21 @@
+{% load i18n %}
+<li class="nav-item dropdown">
+  <a class="px-2 nav-link link-body-emphasis dropdown-toggle"
+     data-bs-toggle="dropdown"
+     href="#"
+     role="button"
+     aria-expanded="false">
+    {{ user.get_short_name }}
+  </a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="{% url 'users:profile' %}">{% translate 'My profile' %}</a></li>
+    <li><a class="dropdown-item" href="{% url 'gifts:my-gifts' %}">{% translate 'My gifts' %}</a></li>
+    {% if perms.gifts.can_manage_gift %}
+      <li><a class="dropdown-item" href="{% url 'gifts:admin-list' %}">{% translate 'Manage gifts' %}</a></li>
+    {% endif %} 
+    <li>
+      <hr class="dropdown-divider">
+    </li>
+    <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate 'Logout' %}</a></li>
+  </ul>
+</li>

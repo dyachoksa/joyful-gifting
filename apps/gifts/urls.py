@@ -1,9 +1,10 @@
 from django.urls import path
 
 from .views import (
+    GiftCreateView,
     GiftDetailView,
     GiftListView,
-    GiftCreateView,
+    GiftManageListView,
     approve_gift,
     reject_gift,
     apply_for_gift,
@@ -20,6 +21,8 @@ urlpatterns = [
         name="approve-gift-application",
     ),
     # Gifts
+    path("manage/", GiftManageListView.as_view(), name="admin-list"),
+    path("my-gifts/", GiftManageListView.as_view(user_only=True), name="my-gifts"),
     path("create/", GiftCreateView.as_view(), name="create"),
     path("<uuid:pk>/", GiftDetailView.as_view(), name="detail"),
     path("<uuid:pk>/approve/", approve_gift, name="approve-gift"),

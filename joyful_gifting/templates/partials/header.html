@@ -22,11 +22,7 @@
 
     <ul class="nav">
       {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a href="{% url 'users:profile' %}" class="nav-link link-body-emphasis px-2">
-            {{ user.get_short_name }}
-          </a>
-        </li>
+        {% include 'partials/account_dropdown.html' %}
         <li class="nav-item">
           <a href="{% url 'account_logout' %}" class="nav-link link-body-emphasis px-2">{% trans "Logout" %}</a>
         </li>

@@ -102,6 +102,10 @@ class Gift(models.Model):
     def is_approved(self):
         return self.status == GiftStatus.APPROVED
 
+    @property
+    def is_rejected(self):
+        return self.status == GiftStatus.REJECTED
+
     def get_absolute_url(self):
         return reverse("gifts:detail", kwargs={"pk": self.pk})
 

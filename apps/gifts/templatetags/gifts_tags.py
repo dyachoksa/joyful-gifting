@@ -25,3 +25,10 @@ def has_active_application_by(gift, user):
 def gift_application_for(gift, _as, user) -> GiftApplication | None:
     """Returns GiftApplication object for given gift and user."""
     return GiftApplication.objects.filter(gift=gift, user=user).first()
+
+
+@register.inclusion_tag("gifts/partials/status_label.html")
+def render_gift_label(gift):
+    return {
+        "gift": gift,
+    }
